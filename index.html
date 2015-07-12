@@ -20,6 +20,23 @@
           index -= 1;
         }
 
+        $('<button class="showNew">Show New Tweets</button>').prependTo($body);
+        
+        $('.showNew').on('click', function() {
+          
+          var updateIndex = streams.home.length - 1;
+          var prevTweets = $('div').length;
+          
+          while (updateIndex > prevTweets){
+            var tweet = streams.home[updateIndex];
+            var $tweet = $('<div></div>');
+            $tweet.text('@' + tweet.user + ': ' + tweet.message);
+            $('.showNew').after($tweet);
+            updateIndex -= 1;
+          }
+
+        });
+
       });
 
     </script>
