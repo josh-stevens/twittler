@@ -73,19 +73,12 @@
           // --------------------------------------------------
 
           $('.user').on('click', function() {
-            $body.html('');
 
-            $body.append('<button class="back">Back to main feed</button>')
+            $body.prepend('<button class="back">Back to main feed</button>')
             $('.back').on('click', loadFeed);
+            $('.showNew').hide();
+            $('.tweet').hide();
 
-            var stream = streams.users[$(this).data-user];
-            for (var key in stream) {
-              var tweet = stream[key];
-              var $tweet = $('<div class="tweet"></div>');
-              $tweet.append('@' + tweet.user + ': ' + tweet.message);
-              $('<span class="timestamp">' + tweet.created_at + '</span>').appendTo($tweet);
-              $tweet.appendTo($body);
-            }
           })
         }
 
