@@ -3,39 +3,85 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <style>
+
+      body {
+        background-color: #8EC1DA;
+      }
+
+      .tweet {
+        height: 100px;
+        width: 400px;
+        border: 1px solid grey;
+        border-radius: 50px;
+        padding: 25px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
+        background-color:white;
+      }
+
+      .highlight {
+        background-color: #F5F8FA;
+      }
+
+      div {
+        position:relative;
+      }
+
+      div .timestamp {
+        position:absolute;
+        display: table-cell;
+        vertical-align: bottom;
+      }
+
+    </style>
   </head>
   <body>
     <script>
 
       $(document).ready(function(){
         var $body = $('body');
-        $body.html('');
-
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' ' + tweet.created_at);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
-
-        $('<button class="showNew">Show New Tweets</button>').prependTo($body);
         
-        $('.showNew').on('click', function() {
-          
-          var updateIndex = streams.home.length - 1;
-          var prevTweets = $('div').length;
-          
-          while (updateIndex > prevTweets){
-            var tweet = streams.home[updateIndex];
-            var $tweet = $('<div></div>');
-            $tweet.text('@' + tweet.user + ': ' + tweet.message + ' ' + tweet.created_at);
-            $('.showNew').after($tweet);
-            updateIndex -= 1;
+
+        function loadFeed() {
+          $body.html('');
+
+          var index = streams.home.length - 1;
+          while(index >= 0){
+            var tweet = streams.home[index];
+            var $tweet = $('<div class="tweet"></div>');
+            $tweet.append('@<span class="user">' + tweet.user + '</span>: ' + tweet.message);
+            $('<span class="timestamp">' + tweet.created_at + '</span></div>').appendTo($tweet);
+            $tweet.appendTo($body);
+            index -= 1;
           }
 
-        });
+          $('<button class="showNew">Show New Tweets</button>').prependTo($body);
+          
+          $('.showNew').on('click', loadFeed);
+
+          // Highlight the div a different color on mouse hover
+          // --------------------------------------------------
+          $('div').on('mouseenter', function() {
+            $(this).addClass('highlight');
+          });
+          $('div').on('mouseleave', function() {
+            $(this).removeClass('highlight');
+          });
+          // --------------------------------------------------
+
+          $('.user').on('click', function() {
+            $body.html('');
+
+            $body.append('<button class="back">Back to main feed</button>')
+            $('.back').on('click', loadFeed);
+
+            
+          })
+        }
+
+        loadFeed();
 
       });
 
