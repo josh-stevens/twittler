@@ -74,10 +74,13 @@
 
           $('.user').on('click', function() {
 
+            var user = $(this).data('user');
+
             $body.prepend('<button class="back">Back to main feed</button>')
             $('.back').on('click', loadFeed);
             $('.showNew').hide();
             $('.tweet').hide();
+            $('span[data-user="' + user + '"]').closest('div').show();
 
           })
         }
