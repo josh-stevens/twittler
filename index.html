@@ -74,6 +74,8 @@
 
           $('.user').on('click', function() {
 
+            $('.user').off('click');
+            
             var user = $(this).data('user');
 
             $body.prepend('<button class="back">Back to main feed</button>')
